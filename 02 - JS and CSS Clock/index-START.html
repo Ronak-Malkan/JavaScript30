@@ -9,9 +9,9 @@
 
     <div class="clock">
       <div class="clock-face">
-        <div class="hand hour-hand"></div>
-        <div class="hand min-hand"></div>
-        <div class="hand second-hand"></div>
+        <div class="hand hour-hand" id="hourHand"></div>
+        <div class="hand min-hand" id="minHand"></div>
+        <div class="hand second-hand" id="secondHand"></div>
       </div>
     </div>
 
@@ -62,12 +62,38 @@
       background: black;
       position: absolute;
       top: 50%;
+      transition: all 0.05s;
+      transition-timing-function: cubic-bezier(.25,.1,.48,1.74);
+      transform: rotate(90deg);
+      transform-origin: 100%;
     }
 
   </style>
 
   <script>
-
+    const date = new Date();
+    let hourRotate = (date.getHours()%12)*30+90;
+    let minuteRotate = (date.getMinutes())*6+90;
+    let secondRotate = (date.getSeconds())*6+90;
+    const hourHand = document.getElementById("hourHand");
+    const minHand = document.getElementById("minHand");
+    const secondHand = document.getElementById("secondHand");
+    hourHand.style.transform = `rotate(${hourRotate}deg)`;
+    minHand.style.transform = `rotate(${minuteRotate}deg)`;
+    secondHand.style.transform = `rotate(${secondRotate}deg)`;
+    const secondsMove = setInterval(() => {
+      secondRotate += 6;
+      console.log(secondRotate);
+      secondHand.style.transform = `rotate(${secondRotate}deg)`;
+    }, 1000);
+    const minutesMove = setInterval(() => {
+      minuteRotate += 6;
+      minHand.style.transform = `rotate(${minuteRotate}deg)`;
+    }, 60000);
+    const hoursMove = setInterval(() => {
+      hourRotate += 6;
+      hourHand.style.transform = `rotate(${hourRotate}deg)`;
+    }, 3600000);
 
   </script>
 </body>
