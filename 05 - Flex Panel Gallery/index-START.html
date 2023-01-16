@@ -26,9 +26,11 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
+      flex-grow: 1;
       background: #6B0F9C;
       box-shadow: inset 0 0 0 5px rgba(255,255,255,0.1);
       color: white;
@@ -43,6 +45,10 @@
       font-size: 20px;
       background-size: cover;
       background-position: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
@@ -53,11 +59,30 @@
 
     /* Flex Children */
     .panel > * {
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       margin: 0;
       width: 100%;
       transition: transform 0.5s;
     }
 
+    .panel > *:first-child {
+      transform: translateY(-100%);
+    }
+    .panel > *:last-child {
+      transform: translateY(100%);
+    }
+
+    .panel.open > *:first-child {
+      transform: translateY(0);
+    }
+
+    .panel.open > *:last-child {
+      transform: translateY(0);
+    }
+ 
     .panel p {
       text-transform: uppercase;
       font-family: 'Amatic SC', cursive;
@@ -70,6 +95,7 @@
     }
 
     .panel.open {
+      flex: 5;
       font-size: 40px;
     }
 
@@ -105,7 +131,16 @@
   </div>
 
   <script>
-
+    panels = document.querySelector(".panels");
+    panels.addEventListener("click", expand);
+    function expand(event) {
+      if(event.target.tagName === "P"){
+        event.target.parentElement.classList.toggle("open");
+      }
+      else {
+        event.target.classList.toggle("open");
+      }
+    }
   </script>
 
 
