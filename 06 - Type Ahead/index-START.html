@@ -15,7 +15,35 @@
     </ul>
   </form>
 <script>
+const inputElement = document.querySelector(".search");
+const listElement = document.querySelector(".suggestions");
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+let data;
+
+fetch("https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json")
+.then((res) => res.json())
+.then((res) => data = res);
+
+inputElement.addEventListener("input", showResults);
+
+function showResults(event) {
+  listElement.innerHTML = "";
+  let html = "";
+  data.forEach(stateObject => {
+    let city = stateObject.city.toLowerCase().indexOf(event.target.value.toLowerCase());
+    let state = stateObject.state.toLowerCase().indexOf(event.target.value.toLowerCase());
+
+    if( city != -1 || state != -1){
+      html = `
+      <li>
+        <span class="name">${stateObject.city.replace(new RegExp(event.target.value, 'gi'), `<span class="hl">${event.target.value}</span>`)}, ${stateObject.state.replace(new RegExp(event.target.value, 'gi'), `<span class="hl">${event.target.value}</span>`)}</span>
+        <span class="population">${stateObject.population}</span>
+      </li>
+      `
+      listElement.insertAdjacentHTML("beforeend", html);
+    }
+  });
+}
 
 </script>
 </body>
