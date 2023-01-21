@@ -96,6 +96,49 @@
   </div>
 
 <script>
+  const inbox = document.querySelector(".inbox");
+  let shiftPressed = false;
+  let lastOffSetTop;
+  let currentOffSetTop;
+
+  inbox.addEventListener("change", checkedUnchecked);
+  document.addEventListener("keydown", shiftDown);
+  document.addEventListener("keyup", shiftUp);
+
+  function shiftDown(e){
+    if(e.key == "Shift"){
+      shiftPressed = true;
+    }
+  }
+
+  function shiftUp(e){
+    if(e.key == "Shift"){
+      shiftPressed = false;
+    }
+  }
+
+  function checkedUnchecked(event){
+    if(event.target.checked){
+      if(shiftPressed){
+        currentOffSetTop = event.target.offsetTop;
+        checkOthers();
+      }
+      else{
+        lastOffSetTop = event.target.offsetTop;
+      }
+    }
+  }
+
+  function checkOthers(currentElement){
+    const allInputs = document.querySelectorAll("input");
+    allInputs.forEach((element) => {
+      if(element.offsetTop > lastOffSetTop && element.offsetTop < currentOffSetTop){
+        console.log(element);
+        element.checked = true;
+      }
+    })
+  }
+
 </script>
 </body>
 </html>
