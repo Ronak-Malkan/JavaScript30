@@ -7,6 +7,21 @@
 </head>
 <body>
 <script>
+  let keySequenceNumber = 0;
+  document.addEventListener("keydown", keypressed)
+
+  function keypressed(e){
+    if(  ((keySequenceNumber==0 || keySequenceNumber==1) && e.key === "ArrowUp")   ||   ((keySequenceNumber==2 || keySequenceNumber==3) && e.key === "ArrowDown")   ||   ((keySequenceNumber==4 || keySequenceNumber==6) && e.key === "ArrowLeft")   ||   ((keySequenceNumber==5 || keySequenceNumber==7) && e.key === "ArrowRight")   ||   (keySequenceNumber==8 && e.key === "b")  ){
+      keySequenceNumber++;
+      return;
+    }
+    else if((keySequenceNumber==9) && e.key === "a"){
+      console.log("Pattern Achieved");
+      keySequenceNumber=0;
+    }
+    keySequenceNumber = 0;
+  }
+
 </script>
 </body>
 </html>
